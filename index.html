@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Simple calculator</title>
+    <link rel="icon" href="assets/calculator_favicon.png">
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="dark-theme">
+    <div class="navigation">
+        <button id="showSimpleCalc">Simple Calculator</button>
+        <button id="showAdvancedCalc">Advanced Calculator</button>
+    </div>
+
+    <div id="simpleCalc" class="simple-calculator">
+            <h1>Prosty kalkulator</h1>
+            <input type="text" id="arg1">
+            <input type="text" id="arg2">
+            <br>
+            <button onclick="calculate('+')">+</button>
+            <button onclick="calculate('-')">-</button>
+            <button onclick="calculate('*')">*</button>
+            <button onclick="calculate('/')">/</button>
+            <br>
+            <div id="result"></div>
+            <hr>
+            <button id="simpleCalcThemeLightBtn">Jasny motyw</button>
+            <button id="simpleCalcThemeDarkBtn">Ciemny motyw</button>
+            <br>
+            <button id="randomButton" onclick="showRandomNumber()">R</button>
+            <br>
+            <button onclick="askForNumber()">Podaj liczbę</button>
+            <div id="numberList"></div>
+    </div>
+
+    <div id="advancedCalc" class="calculator-advance">
+        <div class="calculator">
+            <div class="display" id="display">0</div>
+            <div class="buttons">
+                <button class="btn function" data-action="clear">AC</button>
+                <button class="btn function" data-action="sign">+/-</button>
+                <button class="btn function" data-action="percent">%</button>
+                <button class="btn operator" data-action="divide">÷</button>
+
+                <button class="btn number" data-value="7">7</button>
+                <button class="btn number" data-value="8">8</button>
+                <button class="btn number" data-value="9">9</button>
+                <button class="btn operator" data-action="multiply">×</button>
+
+                <button class="btn number" data-value="4">4</button>
+                <button class="btn number" data-value="5">5</button>
+                <button class="btn number" data-value="6">6</button>
+                <button class="btn operator" data-action="subtract">−</button>
+
+                <button class="btn number" data-value="1">1</button>
+                <button class="btn number" data-value="2">2</button>
+                <button class="btn number" data-value="3">3</button>
+                <button class="btn operator" data-action="add">+</button>
+
+                <button class="btn number zero" data-value="0">0</button>
+                <button class="btn number" data-action="decimal">.</button>
+                <button class="btn operator equals" data-action="equals">=</button>
+            </div>
+        </div>
+
+        <div class="themeContainer">
+            <button id="darkBtn">Dark</button>
+            <button id="lightBtn">Light</button>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+    <script>
+        const btnSimpleCalc = document.getElementById('showSimpleCalc');
+        const btnAdvancedCalc = document.getElementById('showAdvancedCalc');
+        const simpleCalc = document.getElementById('simpleCalc');
+        const advancedCalc = document.getElementById('advancedCalc');
+
+        btnSimpleCalc.addEventListener('click', () => {
+            simpleCalc.style.display = 'block';
+            advancedCalc.style.display = 'none';
+        });
+
+        btnAdvancedCalc.addEventListener('click', () => {
+            simpleCalc.style.display = 'none';
+            advancedCalc.style.display = 'block';
+        });
+
+
+        function calculate(operation) {
+            const arg1 = parseFloat(document.getElementById('arg1').value);
+            const arg2 = parseFloat(document.getElementById('arg2').value);
+            let result;
+
+            switch (operation) {
+                case '+':
+                    result = arg1 + arg2;
+                    break;
+                case '-':
+                    result = arg1 - arg2;
+                    break;
+                case '*':
+                    result = arg1 * arg2;
+                    break;
+                case '/':
+                    if (arg2 === 0) {
+                        result = "Cant divide by 0";
+                    } else {
+                        result = arg1 / arg2;
+                    }
+                    break;
+                default:
+                    result = 0;
+            }
+
+            document.getElementById('result').innerText = result.toString();
+        }
+
+
+        function showRandomNumber() {
+            const randomNumber = Math.floor(Math.random() * 100);
+            const randomButton = document.getElementById('randomButton');
+            randomButton.innerText = randomNumber.toString();
+            randomButton.style.rotate = '-180deg';
+        }
+
+        function askForNumber() {
+            const number = parseInt(prompt('Podaj liczbę') || '0');
+            const numberList = document.getElementById('numberList');
+            numberList.innerHTML = '';
+
+            for (let i = 1; i <= number; i++) {
+                if (i % 5 === 0) {
+                    numberList.innerHTML += '🕒 ';
+                } else {
+                    numberList.innerHTML += i + ' ';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
